@@ -232,6 +232,7 @@ Be critical and constructive. Output strictly the requested JSON schema.`;
             combinedData.overallScore = Math.round((combinedData.overallScore + combinedData.atsScore) / 2);
         }
 
+        console.log("✅ Analysis complete! Sending intelligence report to frontend.");
         res.json(combinedData);
 
     } catch (error) {
