@@ -71,7 +71,3 @@ The server will start securely. Open your browser and navigate to:
 - **CORS Restricted:** Cross-Origin Resource Sharing is locked down to prevent unauthorized domain access.
 - **Ignored Secrets:** `.gitignore` actively prevents your `.env` keys and `node_modules` from being pushed to source control.
 
----
-
-## 📝 License
-This project is open-source and available under the MIT License.
