@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ResumeIQ | Professional AI Resume Analysis</title>
+  <meta name="description" content="Enterprise-grade AI resume analysis. Get detailed ATS scores, keyword gaps, and professional feedback." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <!-- Minimal Animated Background -->
+  <div class="bg-gradient" aria-hidden="true"></div>
+
+  <header class="header" id="header">
+    <div class="header-inner container">
+      <div class="logo">
+        <div class="logo-icon">
+          <i data-lucide="layers"></i>
+        </div>
+        <span class="logo-text">ResumeIQ</span>
+        <span class="logo-badge">Enterprise</span>
+      </div>
+      <nav class="header-nav">
+        <a href="#upload-section" class="nav-link">Platform</a>
+        <a href="#features-section" class="nav-link">Capabilities</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-pill">
+            <span class="pill-dot"></span>
+            Powered by Groq & Gemini
+          </div>
+          <h1 class="hero-title">Precision ATS & Resume <br/><span class="gradient-text">Intelligence Engine</span></h1>
+          <p class="hero-subtitle">Upload your resume to receive a comprehensive ATS compatibility score, sophisticated keyword gap analysis, section grading, and actionable improvements—processed securely in your browser.</p>
+          <div class="hero-stats">
+            <div class="stat-pill"><span class="stat-num">99%</span><span class="stat-lbl">ATS Parsing Accuracy</span></div>
+            <div class="stat-pill"><span class="stat-num">50+</span><span class="stat-lbl">Supported Industries</span></div>
+            <div class="stat-pill"><span class="stat-num">30+</span><span class="stat-lbl">Evaluation Metrics</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload -->
+    <section class="upload-section" id="upload-section">
+      <div class="container upload-container">
+        <div class="upload-header">
+          <h2 class="section-title">New Analysis</h2>
+          <p class="section-sub">Configure your target profile and upload your document.</p>
+        </div>
+
+        <div class="config-panel">
+          <div class="input-row">
+            <div class="input-group">
+              <label for="job-description" class="field-label">
+                <i data-lucide="target" class="label-icon"></i> Target Job Description <span class="opt-tag">Optional</span>
+              </label>
+              <textarea id="job-description" class="jd-textarea" placeholder="Paste the target job description here to enable advanced keyword matching and gap analysis..." rows="4"></textarea>
+            </div>
+            
+            <div class="input-group">
+              <label for="industry-select" class="field-label">
+                <i data-lucide="building-2" class="label-icon"></i> Industry Domain
+              </label>
+              <div class="custom-select-wrapper">
+                <select id="industry-select" class="industry-select">
+                  <option value="auto">Auto-Detect Domain</option>
+                  <option value="software">Software Engineering</option>
+                  <option value="data">Data Science & AI</option>
+                  <option value="product">Product Management</option>
+                  <option value="design">UX / UI Design</option>
+                  <option value="devops">DevOps & Cloud</option>
+                  <option value="cybersecurity">Cybersecurity</option>
+                  <option value="finance">Finance & Banking</option>
+                  <option value="accounting">Accounting & Audit</option>
+                  <option value="marketing">Marketing & SEO</option>
+                  <option value="sales">Sales & Business Dev</option>
+                  <option value="hr">Human Resources</option>
+                  <option value="operations">Operations & Logistics</option>
+                  <option value="consulting">Management Consulting</option>
+                  <option value="healthcare">Healthcare & Medical</option>
+                  <option value="pharma">Pharmaceuticals</option>
+                  <option value="legal">Legal & Compliance</option>
+                  <option value="education">Education & Research</option>
+                  <option value="engineering">Mechanical / Civil Engineering</option>
+                  <option value="architecture">Architecture</option>
+                  <option value="media">Media & Communications</option>
+                </select>
+                <i data-lucide="chevron-down" class="sel-arrow"></i>
+              </div>
+            </div>
+          </div>
+
+          <div id="drop-zone" class="drop-zone" role="button" tabindex="0">
+            <div class="dz-inner">
+              <div class="dz-icon">
+                <i data-lucide="upload-cloud"></i>
+              </div>
+              <p class="dz-main">Drag and drop your document</p>
+              <p class="dz-sub">or <span class="dz-link">browse files</span></p>
+              <div class="fmt-badges">
+                <span class="fmt">PDF</span>
+                <span class="fmt">DOCX</span>
+                <span class="fmt">TXT</span>
+              </div>
+            </div>
+            <input type="file" id="file-input" accept=".pdf,.docx,.doc,.txt" hidden />
+          </div>
+
+          <div id="file-preview" class="file-preview hidden">
+            <div class="fp-inner">
+              <i data-lucide="file-text" class="fp-icon"></i>
+              <div class="fp-info">
+                <div class="fp-name" id="fp-name">document.pdf</div>
+                <div class="fp-size" id="fp-size">245 KB</div>
+              </div>
+              <button id="remove-file" class="fp-remove" aria-label="Remove file">
+                <i data-lucide="x"></i>
+              </button>
+            </div>
+          </div>
+
+          <button id="analyze-btn" class="analyze-btn" disabled>
+            <i data-lucide="zap"></i> Run Intelligence Engine
+          </button>
+
+          <div id="processing" class="processing hidden">
+            <div class="proc-inner">
+              <div class="spinner"></div>
+              <div class="proc-text">
+                <p class="proc-title" id="proc-title">Processing Document</p>
+                <p class="proc-sub">Executing multi-modal evaluation models...</p>
+              </div>
+            </div>
+            <div class="proc-steps" id="proc-steps">
+              <div class="ps active" data-i="0">Parsing</div>
+              <div class="ps" data-i="1">Domain Context</div>
+              <div class="ps" data-i="2">ATS Evaluation</div>
+              <div class="ps" data-i="3">Keyword Extraction</div>
+              <div class="ps" data-i="4">Qualitative Analysis</div>
+              <div class="ps" data-i="5">Compiling Report</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features / Capabilities -->
+    <section class="features-section" id="features-section">
+      <div class="container">
+        <div class="upload-header">
+          <h2 class="section-title">Platform Capabilities</h2>
+          <p class="section-sub">Comprehensive evaluation metrics powered by dual AI engines.</p>
+        </div>
+        <div class="features-grid-cards">
+          <div class="feat-card">
+            <i data-lucide="cpu" class="feat-icon"></i>
+            <h3>ATS Simulation</h3>
+            <p>Parses your document exactly like enterprise Applicant Tracking Systems to detect formatting errors.</p>
+          </div>
+          <div class="feat-card">
+            <i data-lucide="key" class="feat-icon"></i>
+            <h3>Keyword Mapping</h3>
+            <p>Identifies exact missing industry keywords and semantic gaps against your target job description.</p>
+          </div>
+          <div class="feat-card">
+            <i data-lucide="bar-chart-2" class="feat-icon"></i>
+            <h3>Impact Quantification</h3>
+            <p>Evaluates the presence of actionable metrics and numbers to ensure your achievements stand out.</p>
+          </div>
+          <div class="feat-card">
+            <i data-lucide="pen-tool" class="feat-icon"></i>
+            <h3>Linguistic Analysis</h3>
+            <p>Flags passive voice, weak action verbs, and readability issues to refine your professional tone.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results-section" class="results-section hidden">
+      <div class="container">
+        <div class="res-header">
+          <h2 class="section-title">Intelligence Report</h2>
+          <div class="res-actions">
+            <button id="new-analysis-btn" class="btn-sec">
+              <i data-lucide="rotate-ccw"></i> New Analysis
+            </button>
+            <button id="print-report-btn" class="btn-sec btn-primary-outline">
+              <i data-lucide="printer"></i> Export PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- Dashboard Top -->
+        <div class="dashboard-top">
+          <!-- Overall Score -->
+          <div class="overall-card" id="overall-card">
+            <div class="oc-header">
+              <h3>Overall Quality Score</h3>
+            </div>
+            <div class="oc-body">
+              <div class="ring-wrap">
+                <svg class="score-ring" viewBox="0 0 120 120">
+                  <circle class="ring-bg" cx="60" cy="60" r="50"/>
+                  <circle class="ring-fg" id="ring-fg" cx="60" cy="60" r="50"/>
+                </svg>
+                <div class="ring-center">
+                  <div class="ring-num" id="ring-num">0</div>
+                </div>
+              </div>
+              <div class="oc-info">
+                <div class="oc-title-wrapper">
+                  <div class="grade-badge" id="grade-circle">A</div>
+                  <h4 class="oc-title" id="oc-title">Excellent Resume</h4>
+                </div>
+                <p class="oc-desc" id="oc-desc">—</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="quick-stats">
+            <div class="stat-box">
+              <div class="sb-header">
+                <i data-lucide="cpu"></i> ATS Compatibility
+              </div>
+              <div class="sb-value" id="ats-score-badge">—</div>
+            </div>
+            <div class="stat-box">
+              <div class="sb-header">
+                <i data-lucide="check-circle"></i> Skills Match
+              </div>
+              <div class="sb-value"><span id="skills-match-badge">—</span>%</div>
+            </div>
+            <div class="stat-box">
+              <div class="sb-header">
+                <i data-lucide="trending-up"></i> Impact Score
+              </div>
+              <div class="sb-value" id="impact-score-badge">—</div>
+            </div>
+            <div class="stat-box">
+              <div class="sb-header">
+                <i data-lucide="briefcase"></i> Detected Domain
+              </div>
+              <div class="sb-value text-sm" id="industry-result">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <!-- ATS Card -->
+          <div class="res-card" id="ats-card">
+            <div class="rc-head">
+              <i data-lucide="server"></i>
+              <h3>ATS Diagnostics</h3>
+            </div>
+            <div class="rc-body">
+              <div id="ats-grid" class="info-list"></div>
+            </div>
+          </div>
+
+          <!-- Keywords -->
+          <div class="res-card" id="keywords-card">
+            <div class="rc-head">
+              <i data-lucide="key"></i>
+              <h3>Keyword Intelligence</h3>
+            </div>
+            <div class="rc-body">
+              <div id="keywords-container" class="keywords-container"></div>
+            </div>
+          </div>
+
+          <!-- Section Scores -->
+          <div class="res-card full-width" id="sections-card">
+            <div class="rc-head">
+              <i data-lucide="layout-template"></i>
+              <h3>Component Evaluation</h3>
+            </div>
+            <div class="rc-body">
+              <div id="sections-grid" class="sections-grid"></div>
+            </div>
+          </div>
+
+          <!-- Writing Quality -->
+          <div class="res-card" id="writing-card">
+            <div class="rc-head">
+              <i data-lucide="pen-tool"></i>
+              <h3>Linguistic Analysis</h3>
+            </div>
+            <div class="rc-body">
+              <div id="writing-grid" class="info-list"></div>
+            </div>
+          </div>
+
+          <!-- Impact -->
+          <div class="res-card" id="impact-card">
+            <div class="rc-head">
+              <i data-lucide="bar-chart-2"></i>
+              <h3>Impact & Metrics</h3>
+            </div>
+            <div class="rc-body">
+              <div id="impact-container" class="text-content"></div>
+            </div>
+          </div>
+
+          <!-- Suggestions -->
+          <div class="res-card full-width suggestions-card" id="suggestions-card">
+            <div class="rc-head">
+              <i data-lucide="lightbulb"></i>
+              <h3>Actionable Directives</h3>
+              <div class="sugg-count" id="sugg-count">0</div>
+            </div>
+            <div class="rc-body">
+              <div id="suggestions-container" class="suggestions-container"></div>
+            </div>
+          </div>
+
+          <!-- Highlights & Flags -->
+          <div class="res-card highlights-card" id="highlights-card">
+            <div class="rc-head">
+              <i data-lucide="check-square" class="success-icon"></i>
+              <h3>Identified Strengths</h3>
+            </div>
+            <div class="rc-body">
+              <div id="highlights-container" class="highlights-container"></div>
+            </div>
+          </div>
+
+          <div class="res-card red-card hidden" id="red-flags-card">
+            <div class="rc-head">
+              <i data-lucide="alert-triangle" class="danger-icon"></i>
+              <h3>Critical Flags</h3>
+            </div>
+            <div class="rc-body">
+              <div id="red-flags-container" class="red-flags-container"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">
+        <i data-lucide="layers"></i> ResumeIQ
+      </div>
+      <p class="footer-note">Secure local parsing • Dual-Engine AI Evaluation</p>
+      <p class="footer-copy">© 2026 ResumeIQ Enterprise Systems</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="analyzer.js"></script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
