@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('ats-score-badge').textContent = data.atsScore || 0;
         document.getElementById('skills-match-badge').textContent = data.skillsMatch || 0;
         document.getElementById('impact-score-badge').textContent = data.quantification?.score || 0;
-        document.getElementById('industry-result').innerHTML = `<strong>${data.detectedIndustry || 'Unknown'}</strong><br><span style="font-size:0.8rem; opacity:0.8">${data.detectedRole || 'General'}</span>`;
+        document.getElementById('industry-result').innerHTML = DOMPurify.sanitize(`<strong>${data.detectedIndustry || 'Unknown'}</strong><br><span style="font-size:0.8rem; opacity:0.8">${data.detectedRole || 'General'}</span>`);
 
         // ATS Details
         const atsDetails = data.atsDetails || [];
@@ -170,64 +170,64 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="ats-info"><h4>${d.criterion || 'Check'}</h4><p>${d.comment || ''}</p></div>
             </div>
         `).join('') : '<p>No ATS details provided.</p>';
-        document.getElementById('ats-grid').innerHTML = atsHtml;
+        document.getElementById('ats-grid').innerHTML = DOMPurify.sanitize(atsHtml);
 
         // Keywords
         const missing = data.missingKeywords || [];
         const present = data.presentKeywords || [];
-        document.getElementById('keywords-container').innerHTML = `
+        document.getElementById('keywords-container').innerHTML = DOMPurify.sanitize(`
             <div class="kw-group"><h4>Missing Keywords</h4>
             <div class="kw-list">${missing.length ? missing.map(k => `<span class="kw-tag missing">${k}</span>`).join('') : '<span class="kw-tag">None detected</span>'}</div></div>
             <div class="kw-group"><h4>Present Keywords</h4>
             <div class="kw-list">${present.length ? present.map(k => `<span class="kw-tag present">${k}</span>`).join('') : '<span class="kw-tag">None detected</span>'}</div></div>
-        `;
+        `);
 
         // Section Scores
         const secScores = data.sectionScores || { summary:0, experience:0, education:0, skills:0 };
-        document.getElementById('sections-grid').innerHTML = Object.keys(secScores).map(k => `
+        document.getElementById('sections-grid').innerHTML = DOMPurify.sanitize(Object.keys(secScores).map(k => `
             <div class="sec-score-card">
                 <div class="val">${secScores[k]}</div>
                 <div>${k.charAt(0).toUpperCase() + k.slice(1)}</div>
             </div>
-        `).join('');
+        `).join(''));
 
         // Writing
         const writing = data.writingQuality || [];
-        document.getElementById('writing-grid').innerHTML = writing.length ? writing.map(w => `
+        document.getElementById('writing-grid').innerHTML = DOMPurify.sanitize(writing.length ? writing.map(w => `
             <div class="ats-item ${w.score > 7 ? 'pass' : 'warn'}">
                 <div class="ats-info"><h4>${w.aspect || 'Aspect'} (${w.score || 0}/10)</h4><p>${w.feedback || ''}</p></div>
             </div>
-        `).join('') : '<p>No writing feedback provided.</p>';
+        `).join('') : '<p>No writing feedback provided.</p>');
 
         // Impact
-        document.getElementById('impact-container').innerHTML = `<p>${data.quantification?.feedback || 'No impact analysis available.'}</p>`;
+        document.getElementById('impact-container').innerHTML = DOMPurify.sanitize(`<p>${data.quantification?.feedback || 'No impact analysis available.'}</p>`);
 
         // Suggestions
         const suggestions = data.suggestions || [];
         document.getElementById('sugg-count').textContent = suggestions.length;
-        document.getElementById('suggestions-container').innerHTML = suggestions.length ? suggestions.map(s => `
+        document.getElementById('suggestions-container').innerHTML = DOMPurify.sanitize(suggestions.length ? suggestions.map(s => `
             <div class="sugg-item">
                 <span class="sugg-pri ${(s.priority || '').toLowerCase() === 'high' ? 'high' : (s.priority || '').toLowerCase() === 'medium' ? 'med' : 'low'}">${s.priority || 'Tip'}</span>
                 <div class="sugg-text">${s.text || ''}</div>
             </div>
-        `).join('') : '<p>No suggestions.</p>';
+        `).join('') : '<p>No suggestions.</p>');
 
         // Red Flags
         const redFlags = data.redFlags || [];
         if (redFlags.length > 0) {
             document.getElementById('red-flags-card').classList.remove('hidden');
-            document.getElementById('red-flags-container').innerHTML = redFlags.map(r => `
+            document.getElementById('red-flags-container').innerHTML = DOMPurify.sanitize(redFlags.map(r => `
                 <div class="rf-item"><h4>${r.issue || 'Issue'}</h4><p>${r.description || ''}</p></div>
-            `).join('');
+            `).join(''));
         } else {
             document.getElementById('red-flags-card').classList.add('hidden');
         }
 
         // Highlights
         const highlights = data.highlights || [];
-        document.getElementById('highlights-container').innerHTML = highlights.length ? highlights.map(h => `
+        document.getElementById('highlights-container').innerHTML = DOMPurify.sanitize(highlights.length ? highlights.map(h => `
             <div class="hl-item"><h4>${h.point || 'Strength'}</h4><p>${h.description || ''}</p></div>
-        `).join('') : '<p>No highlights.</p>';
+        `).join('') : '<p>No highlights.</p>');
 
         // Re-initialize Lucide icons for any dynamically added icons if needed
         if (window.lucide) {

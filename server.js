@@ -32,7 +32,7 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 app.use(cors(corsOptions));
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '2mb' })); // Changed to 2mb to prevent large payload DoS attacks (resumes are text-only)
 app.use(express.static('./'));
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
